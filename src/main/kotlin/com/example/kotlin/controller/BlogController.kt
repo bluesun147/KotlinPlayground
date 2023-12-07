@@ -1,7 +1,7 @@
 package com.example.kotlin.controller
 
-import com.example.kotlin.service.Post
-import com.example.kotlin.service.blogService
+import com.example.kotlin.entity.Post
+import com.example.kotlin.service.BlogService
 import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController
 
+// https://blog.naver.com/pjt3591oo/223224423347
 
 data class CreatePostReqDto (
     val title: String,
@@ -22,10 +23,10 @@ data class CreatePostReqDto (
 @RestController
 @RequestMapping("/blog")
 // 서비스 주입
-class blogController(val blogService: blogService) {
+class BlogController(val blogService: BlogService) {
     @GetMapping("/{idx}")
     fun readOnePost(@PathVariable("idx") idx:Int, @RequestParam("page", required = false, defaultValue = 0.toString()) page: Int): Post {
-        return blogService.readOnePost(idx);
+        return blogService.readOnePost(idx)
     }
 
     @GetMapping()
