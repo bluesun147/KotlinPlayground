@@ -1,4 +1,4 @@
-package com.example.kotlin.kakao.dto
+package com.example.kotlin.kakao.blog.dto
 
 class BlogDto (
     val query: String,

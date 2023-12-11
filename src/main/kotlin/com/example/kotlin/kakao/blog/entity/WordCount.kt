@@ -1,4 +1,4 @@
-package com.example.kotlin.kakao.entity
+package com.example.kotlin.kakao.blog.entity
 
 import jakarta.persistence.Entity
 import jakarta.persistence.Id

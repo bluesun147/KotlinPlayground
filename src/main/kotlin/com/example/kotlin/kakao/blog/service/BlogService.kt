@@ -1,8 +1,8 @@
-package com.example.kotlin.kakao.service
+package com.example.kotlin.kakao.blog.service
 
 import com.example.kotlin.kakao.core.exception.InvalidInputException
-import com.example.kotlin.kakao.dto.BlogDto
-import com.example.kotlin.kakao.repository.WordRepository
+import com.example.kotlin.kakao.blog.dto.BlogDto
+import com.example.kotlin.kakao.blog.repository.WordRepository
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.http.HttpHeaders
 import org.springframework.http.MediaType
