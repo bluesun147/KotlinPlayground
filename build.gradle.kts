@@ -26,6 +26,7 @@ dependencies {
 	runtimeOnly("com.mysql:mysql-connector-j")
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
 	implementation(kotlin("stdlib-jdk8"))
+	implementation("org.springframework:spring-webflux")
 }
 
 tasks.withType<KotlinCompile> {
