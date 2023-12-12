@@ -2,6 +2,7 @@ package com.example.kotlin.kakao.blog.service
 
 import com.example.kotlin.kakao.core.exception.InvalidInputException
 import com.example.kotlin.kakao.blog.dto.BlogDto
+import com.example.kotlin.kakao.blog.entity.WordCount
 import com.example.kotlin.kakao.blog.repository.WordRepository
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.http.HttpHeaders
@@ -11,7 +12,9 @@ import org.springframework.web.reactive.function.client.WebClient
 import org.springframework.web.reactive.function.client.bodyToMono
 
 @Service
-class BlogService {
+class BlogService (
+    val wordRepository: WordRepository
+) {
 
     @Value("\${REST_API_KEY}")
     lateinit var restApiKey: String
@@ -42,7 +45,7 @@ class BlogService {
                     .queryParam("size", blogDto.size)
                     .build()
             }
-            .header("Authorization", "KakaoAK @restApiKey")
+            .header("Authorization", "KakaoAK $restApiKey")
             .retrieve()
             .bodyToMono<String>()
 
@@ -55,7 +58,7 @@ class BlogService {
             msgList.add(ExceptionMsg.EMPTY_QUERY)
         }
 
-        if (blogDto.sort.trim() !in arrayOf("accuracy", "recency")) {
+        if (blogDto.sort.trim() !in arrayOf("ACCURACY", "RECENCY")) {
             msgList.add(ExceptionMsg.NOT_IN_SORT)
         }
 
@@ -69,9 +72,21 @@ class BlogService {
             // msgList에 있는 각 메시지 객체의 msg 속성을 추출해 문자열로 합침
             // it은 람다식에서 사용되는 반복 요소에 대한 참조
             val message = msgList.joinToString { it.msg }
-            throw  InvalidInputException(message)
+            throw InvalidInputException(message)
         }
 
-        return "serachKakao"
+
+        val lowQuery: String = blogDto.query.lowercase()
+        val word: WordCount = wordRepository.findById(lowQuery).orElse(WordCount(lowQuery))
+        word.count++
+
+        wordRepository.save(word)
+
+        val result = response.block()
+
+        return result
     }
+
+    // 검색어 카운트 순 정렬
+    fun searchWordRank(): List<WordCount> = wordRepository.findTop10ByOrderByCountDesc()
 }
