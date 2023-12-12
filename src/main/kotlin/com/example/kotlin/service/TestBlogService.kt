@@ -18,7 +18,7 @@ import org.springframework.stereotype.Service
 
 @Service
 //리포지토리를 생성자 주입 받고 있음
-class BlogService(val postRepository: PostRepository) {
+class TestBlogService(val postRepository: PostRepository) {
 //    // mutableListOf : 수정 가능한 리스트 (동적 할당), 읽기, 쓰기 가능
 //    // List인 listOf는 읽기 전용
 //    val posts: MutableList<Post> = mutableListOf<Post>()
